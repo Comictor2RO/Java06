@@ -31,6 +31,10 @@ public abstract class Character {
         skillSet = new SkillSet();
     }
 
+    public String getName(){
+        return name;
+    }
+
     //De implementat in Warrior and Mage
     protected abstract boolean canLearnSkill(Skill skill);
 
@@ -75,6 +79,25 @@ public abstract class Character {
         }
     }
 
+    protected double calculateDamage(double baseDamage) {
+        double variationFactor = 0.9 + Math.random() * 0.2; // untre 0.9 si 1.1
+        double damage = baseDamage * variationFactor;
+        
+        if (Math.random() < 0.05) { // 5% sansa de crit
+            damage *= 1.5;
+        }
+
+        return damage;
+    }
+
+        // Execută un atac de bază asupra țintei
+    public void baseAttack(Character target) {
+        double damage = calculateDamage(this.baseAttackDamage);
+        target.takeDamage((int) damage);
+
+        System.out.println(this.name + " attacks " + target.name + " for " + (int)damage + " damage.");
+    }
+
     public boolean isAlive(){
         return alive;
     }
@@ -95,15 +118,15 @@ public abstract class Character {
         stamina = Math.min(maxStamina, stamina + maxStamina / 10);
         mana = Math.min(maxMana, mana + maxMana / 10);
 
-        System.out.println("The character rested.\nHealth:\t" + health + "\nStamina:\t" + stamina + "\nMana:\t" + mana);
+        System.out.println("The character " + name + " rested.\nHealth:\t\t" + health + "\nStamina:\t" + stamina + "\nMana:\t\t" + mana);
     }
 
     public void printStatus(){
-        System.out.println("Name:\t" + name + 
-            "\nHealth:\t" + health + "/" + maxHealth +
+        System.out.println("Name:\t\t" + name + 
+            "\nHealth:\t\t" + health + "/" + maxHealth +
             "\nStamina:\t" + stamina + "/" + maxStamina +
-            "\nMana:\t" + mana + "/" + maxMana +
-            "\nSkillSet:\t" + skillSet.getSkills()
+            "\nMana:\t\t" + mana + "/" + maxMana +
+            "\nSkillSet:\t" + skillSet
         );
     }
 }

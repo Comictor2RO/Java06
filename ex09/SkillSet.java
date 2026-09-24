@@ -24,4 +24,9 @@ public class SkillSet {
     public List<Skill> getSkills(){
         return skills;
     }
+
+    @Override 
+    public String toString(){
+        return skills.stream().map(Skill::getName).toList().toString();
+    }
 }
